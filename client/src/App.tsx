@@ -766,7 +766,7 @@ export default function App() {
   // Render: Public Landing Page (pre-auth) or Authentication Page
   // ──────────────────────────────────────────────────────────────────────────
 
-  if (!isAuthenticated) {
+  if (!isAuthenticated || !currentUser) {
     return (
       <LandingPage
         users={users}

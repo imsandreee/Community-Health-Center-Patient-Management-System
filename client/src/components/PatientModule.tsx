@@ -67,12 +67,31 @@ export const PatientModule: React.FC<PatientModuleProps> = ({
 
   // If Patient role, only access their own permitted profile (FR-011)
   if (currentUser.role === 'patient') {
+    const defaultProfile: Patient = {
+      id: currentUser.patientId || 'CHC-2026-0101',
+      fullName: currentUser.name || 'Maria Clara Santos',
+      dateOfBirth: '1994-05-18',
+      age: 32,
+      sex: 'Female',
+      civilStatus: 'Single',
+      contactNumber: '0917-555-0821',
+      address: '14 Mabini St.',
+      barangay: 'San Roque',
+      emergencyContactName: 'Family Contact',
+      emergencyContactNumber: '0917-555-0821',
+      bloodType: 'O+',
+      allergies: 'None known',
+      status: 'Active',
+      registrationDate: '2026-01-15',
+    };
     const myProfile =
-      patients.find((p) => p.id === currentUser.patientId) || patients[0];
+      patients.find((p) => p.id === currentUser.patientId) ||
+      patients[0] ||
+      defaultProfile;
 
     return (
       <div className="space-y-6">
-        <div className="bg-white border border-stone-200 rounded-none-none p-6">
+        <div className="bg-white border border-stone-200 rounded-none p-6">
           <div className="flex items-center justify-between pb-4 border-b border-stone-200">
             <div>
               <span className="text-xs font-mono-tabular text-indigo-700 font-semibold">

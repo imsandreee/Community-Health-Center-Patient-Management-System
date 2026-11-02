@@ -68,7 +68,24 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
   // 1. PATIENT DASHBOARD (Section 10)
   if (role === 'patient') {
     const myPatientId = currentUser.patientId || 'CHC-2026-0101';
-    const myProfile = patients.find((p) => p.id === myPatientId) || patients[0];
+    const defaultProfile: Patient = {
+      id: myPatientId,
+      fullName: currentUser.name || 'Maria Clara Santos',
+      dateOfBirth: '1994-05-18',
+      age: 32,
+      sex: 'Female',
+      civilStatus: 'Single',
+      contactNumber: '0917-555-0821',
+      address: '14 Mabini St.',
+      barangay: 'San Roque',
+      emergencyContactName: 'Family Contact',
+      emergencyContactNumber: '0917-555-0821',
+      bloodType: 'O+',
+      allergies: 'None known',
+      status: 'Active',
+      registrationDate: todayDate,
+    };
+    const myProfile = patients.find((p) => p.id === myPatientId) || patients[0] || defaultProfile;
     const myAppointments = appointments.filter((a) => a.patientId === myPatientId);
     const myConsultations = consultations.filter((c) => c.patientId === myPatientId);
     const myVitals = vitals.filter((v) => v.patientId === myPatientId);
