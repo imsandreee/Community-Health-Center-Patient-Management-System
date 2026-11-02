@@ -1,0 +1,6 @@
+{
+  "name": "Community Health Center Patient Management System",
+  "description": "A flat, minimalist, and accessible web-based platform for community health centers to manage patient registration, appointments, queues, consultations, vital signs, and community health monitoring.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
