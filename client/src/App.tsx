@@ -260,7 +260,13 @@ export default function App() {
         setActiveModule('dashboard');
         return { success: true };
       } catch (err) {
-        const msg = err instanceof ApiError ? err.message : 'Login failed. Please try again.';
+        console.error('[Clinical Portal] Login authentication failure:', err);
+        const msg =
+          err instanceof ApiError
+            ? err.detail || err.message
+            : err instanceof Error
+            ? err.message
+            : 'Login failed. Please check your network connection.';
         return { success: false, error: msg };
       }
     },

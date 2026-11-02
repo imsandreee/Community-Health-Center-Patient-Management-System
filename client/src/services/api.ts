@@ -117,10 +117,22 @@ interface RequestOptions {
   noAuth?: boolean;
 }
 
+function buildApiUrl(endpoint: string): URL {
+  const rawPath = `${BASE_URL}${endpoint}`;
+  if (rawPath.startsWith('http://') || rawPath.startsWith('https://')) {
+    return new URL(rawPath);
+  }
+  const base =
+    typeof window !== 'undefined' && window.location?.origin
+      ? window.location.origin
+      : 'http://localhost:5000';
+  return new URL(rawPath, base);
+}
+
 async function request<T>(endpoint: string, options: RequestOptions = {}): Promise<T> {
   const { method = 'GET', body, params, noAuth = false } = options;
 
-  const url = new URL(`${BASE_URL}${endpoint}`);
+  const url = buildApiUrl(endpoint);
   if (params) {
     Object.entries(params).forEach(([key, value]) => {
       if (value !== undefined && value !== null && value !== '') {
@@ -1042,7 +1054,7 @@ export const reportsApi = {
   /** GET /reports/export/csv */
   async exportCsv(category = 'patient_registry'): Promise<string> {
     const token = getAuthToken();
-    const url = new URL(`${BASE_URL}/reports/export/csv`);
+    const url = buildApiUrl('/reports/export/csv');
     url.searchParams.set('category', category);
     const headers: Record<string, string> = {};
     if (token) headers['Authorization'] = `Bearer ${token}`;

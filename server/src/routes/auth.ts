@@ -13,8 +13,8 @@ import { asyncHandler } from '../utils/asyncHandler.js';
 const router = Router();
 
 const loginSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(1),
+  email: z.string().min(1, 'Email or username is required'),
+  password: z.string().min(1, 'Password is required'),
 });
 
 const registerPatientSchema = z.object({
@@ -39,10 +39,21 @@ router.post(
   '/login',
   validate({ body: loginSchema }),
   asyncHandler(async (req, res: Response) => {
-    const { email, password } = req.body;
+    const { email: identifier, password } = req.body;
     const store = mockRepository.getStore();
+    const cleanId = identifier.trim().toLowerCase();
 
-    const user = store.users.find((u) => u.email.toLowerCase() === email.toLowerCase());
+    const user = store.users.find((u) => {
+      const uEmail = u.email.toLowerCase();
+      const uCode = u.userCode.toLowerCase();
+      const uPrefix = uEmail.split('@')[0];
+      return (
+        uEmail === cleanId ||
+        uCode === cleanId ||
+        uPrefix === cleanId ||
+        (cleanId.includes('@') && uPrefix === cleanId.split('@')[0])
+      );
+    });
     if (!user) {
       throw unauthorized('Invalid email or password.');
     }
