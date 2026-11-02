@@ -2,6 +2,7 @@
   "name": "community-health-center-patient-management-system",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "description": "Barangay / Community Health Center Patient Management System",
   "workspaces": [
     "client",

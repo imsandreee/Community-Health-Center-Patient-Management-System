@@ -31,7 +31,11 @@ import type {
 
 const BASE_URL =
   (typeof import.meta !== 'undefined' && import.meta?.env?.VITE_API_BASE_URL) ||
-  'http://localhost:5000/api/v1';
+  (typeof window !== 'undefined' &&
+  window.location.hostname !== 'localhost' &&
+  window.location.hostname !== '127.0.0.1'
+    ? '/api/v1'
+    : 'http://localhost:5000/api/v1');
 
 // ──────────────────────────────────────────────────────────────────────────────
 // Token helpers (memory-only; never persisted to sessionStorage raw)
